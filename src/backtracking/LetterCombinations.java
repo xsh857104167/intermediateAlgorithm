@@ -13,6 +13,12 @@ public class LetterCombinations {
     StringBuffer path = new StringBuffer();
     char[] nums;
 
+    /**
+     * 回溯
+     * 0ms,100%; 37.1MB
+     * @param digits
+     * @return
+     */
     public List<String> letterCombinations(String digits) {
         if (digits == null || digits.length() == 0) {
             return res;

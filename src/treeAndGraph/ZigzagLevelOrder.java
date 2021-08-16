@@ -8,7 +8,8 @@ import java.util.*;
  */
 public class ZigzagLevelOrder {
     /**
-     * 先按照广度优先放到结果集中，然后再把偶数的逆序
+     *
+     * 1ms,96.53%;38.4 MB, 68.83%
      * @param root
      * @return
      */
@@ -20,10 +21,35 @@ public class ZigzagLevelOrder {
         TreeNode p = root;
         Deque<TreeNode> queue = new LinkedList<>();
         queue.add(p);
+        boolean flag = false;  // 表示正向
         while(!queue.isEmpty()){
-//            queue
-        }
+            int length = queue.size();
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; i < length; i++) {
+                if(flag){  // 逆向
+                    p = queue.pollLast();
+                    tmp.add(p.val);
+                    if (p.right != null){
+                        queue.offerFirst(p.right);
+                    }
+                    if (p.left != null){
+                        queue.offerFirst(p.left);
+                    }
 
+                }else{
+                    p = queue.pollFirst();
+                    tmp.add(p.val);
+                    if (p.left != null){
+                        queue.addLast(p.left);
+                    }
+                    if (p.right != null){
+                        queue.addLast(p.right);
+                    }
+                }
+            }
+            res.add(tmp);
+            flag = !flag;
+        }
         return res;
     }
 }
