@@ -27,45 +27,36 @@ public class Maze {
                 }
             }
         }
-
     }
 
-    public static int dfs(char[][] maze, boolean[][] visited, int r, int c){
-        System.out.println(r + c);
-        if (r < 0 || r >= maze.length || c < 0 || c >= maze[0].length || maze[r][c] == '#' || visited[r][c]){
-            return -1;
-        } else if (maze[r][c] == 'T'){
-            return 0;
-        }
+    public static int dfs (char[][] maze, boolean[][] visited,
+                           int r, int c){
 
+        if (r < 0 || r >= maze.length || c < 0 || c >= maze[0].length){
+            return Integer.MAX_VALUE;
+        }
+        if (maze[r][c] == '#' || visited[r][c]){
+            return Integer.MAX_VALUE;
+        }
+        if (maze[r][c] == 'T'){
+            return 1;
+        }
+        int weight;
+        if (maze[r][c] == 'S'){
+            weight = 0;
+        } else {
+            weight = 1;
+        }
+        int result = Integer.MAX_VALUE;
         visited[r][c] = true;
-        int len = 1;
-        int top = dfs(maze, visited, r - 1, c);
-        int left = dfs(maze, visited, r, c - 1);
-        int bottom = dfs(maze, visited, r + 1, c);
-        int right = dfs(maze, visited, r, c + 1);
-
-        if (top == -1 && left == -1 && bottom == -1 && right == -1){
-            visited[r][c] = false;
+        result = Math.min(result, dfs(maze, visited, r + 1, c));
+        result = Math.min(result, dfs(maze, visited, r - 1, c));
+        result = Math.min(result, dfs(maze, visited, r, c + 1));
+        result = Math.min(result, dfs(maze, visited, r, c - 1));
+        if (maze[r][c] == 'S' && result == Integer.MAX_VALUE){
             return -1;
-        }else{
-            int min = Integer.MAX_VALUE;
-            if (top != -1){
-                min = Math.min(top, min);
-            }
-            if (left != -1){
-                min = Math.min(left, min);
-            }
-            if (bottom != -1){
-                min = Math.min(bottom, min);
-            }
-            if (right != -1){
-                min = Math.min(right, min);
-            }
-            len += min;
         }
-        visited[r][c] = false;
-
-        return len;
+        return result == Integer.MAX_VALUE ? Integer.MAX_VALUE : result + weight;
     }
+
 }

@@ -71,80 +71,6 @@ public class Main {
      * @return int整型
      */
     public int minSailCost (int[][] input) {
-        // write code here
-        if (input ==  null && input[0] == null){
-            return -1;
-        }
-        int nr = input.length;
-        int nc = input[0].length;
-//        if(input[0][0] == 2){
-//            return -1;
-//        }
-        int[][] dp = new int[nr][nc];
-        for (int i = 1; i < nc; i++) {
-            if (input[0][i-1] == 2 || dp[0][i-1] == -1){
-                dp[0][i] = -1;
-            }else {
-                if (input[0][i-1] == 1){
-                    dp[0][i] = dp[0][i-1] + 1; // 1
-                }else {
-                    dp[0][i] = dp[0][i-1] + 2; // 0
-                }
-            }
-            System.out.println(dp[0][i]);
-        }
-        System.out.println();
-        for (int i = 1; i < nr; i++) {
-            if (input[i-1][0] == 2 || dp[i-1][0] == -1){
-                dp[i][0] = -1;
-            }else {
-                if (input[i-1][0] == 1){
-                    dp[i][0] = dp[i-1][0] + 1; // 1
-                }else {
-                    dp[i][0] = dp[i-1][0] + 2; // 0
-                }
-            }
-            System.out.println(dp[i][0]);
-        }
-        System.out.println();
-//        for (int i = 1; i < nr; i++) {
-//            for (int j = 1; j < nc; j++) {
-//                if (dp[i-1][j] == -1 && dp[i][j-1] != -1){
-//                    dp[i][j] = dp[i][j-1] + input[i][j-1];
-//                }else if (dp[i-1][j] != -1 && dp[i][j-1] == -1){
-//                    dp[i][j] = dp[i-1][j] + input[i-1][j];
-//                }else if (dp[i-1][j] != -1 && dp[i][j-1] != -1){
-//                    dp[i][j] = Math.min(dp[i-1][j] + input[i-1][j], dp[i][j-1] + input[i][j-1]) ;
-//                }else{
-//                    dp[i][j] = -1;
-//                }
-//            }
-//        }
-
-        for (int i = 1; i < nr; i++) {
-            for (int j = 1; j < nc; j++) {
-                if (dp[i-1][j] != -1 && dp[i][j-1] != -1){
-                    if (input[i-1][j] == 2 && input[i][j-1] != 2){
-                        dp[i][j] = dp[i][j-1] + input[i][j-1];
-                    }else if (input[i][j-1] == 2 && input[i-1][j] != 2){
-                        dp[i][j] = dp[i-1][j] + input[i-1][j];
-                    }else if (input[i-1][j] != 2 && input[i][j-1] != 2){
-                        dp[i][j] = Math.min(dp[i-1][j] + input[i-1][j], dp[i][j-1] + input[i][j-1]) ;
-                    }else{
-                        dp[i][j] = -1;
-                    }
-                }else if (dp[i-1][j] == -1 && dp[i][j-1] != -1){
-
-
-                    dp[i][j] = -1;
-                }
-            }
-        }
-        return dp[nr-1][nc-1];
-    }
-
-
-    public int minSailCost2 (int[][] input) {
         int[][] block = new int[input.length][input[0].length];
         return getMin(input, block, 0, 0);
     }
@@ -190,6 +116,6 @@ public class Main {
     @Test
     public void test(){
         int[][] test = {{1, 1, 1 ,1, 0},{0,1,0,1,0},{1,1,2,1,1},{0,2,0,0,1}};
-        System.out.println(minSailCost2(test));
+        System.out.println(minSailCost(test));
     }
 }
