@@ -29,7 +29,6 @@ public class LastStoneWeightII {
                 break;
             }
         }
-
         return count - dp[j] - dp[j];
     }
 }
