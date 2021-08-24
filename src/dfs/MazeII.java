@@ -3,11 +3,13 @@ package dfs;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Scanner;
 import java.util.Stack;
 
 /**
+ * 迷宫问题
+ * 输入两个整数，分别表示二维数组的行数，列数。再输入相应的数组，
+ * 其中的1表示墙壁，0表示可以走的路。数据保证有唯一解,不考虑有多解的情况，即迷宫只有一条通道。
+ * 输出：左上角到右下角的最短路径，格式如样例所示。
  * @author Murphy Xu
  * @create 2021-08-23 22:00
  */
