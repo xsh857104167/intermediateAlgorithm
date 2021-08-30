@@ -55,7 +55,7 @@ public class Maze3 {
                     node.x = nx;
                     node.y = ny;
                     node.step = top.step + 1;
-                    queue.add(node);
+                    queue.add(node); // 这个地方之前队列中的值也可能被改变
                     visited[nx][ny] = true;
                 }
             }
