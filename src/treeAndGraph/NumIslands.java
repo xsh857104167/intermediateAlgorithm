@@ -38,7 +38,7 @@ public class NumIslands {
         if (r<0 || c < 0 || r >= nr || c >= nc || grid[r][c] == '0'){
             return;
         }
-        grid[r][c] = '0';
+        grid[r][c] = '0';  // 可以改用使用visited数组
         dfs(grid, r-1, c);
         dfs(grid, r+1, c);
         dfs(grid, r, c - 1);
