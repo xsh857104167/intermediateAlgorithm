@@ -10,7 +10,7 @@ public class LengthOfLIS {
     /**
      * 动态规划
      * 68ms,50.56%; 38.3MB, 6.44%
-     *
+     * 定义 dp[i] 为考虑前i个元素，以第i个数字结尾的最长上升子序列的长度.
      * @param nums
      * @return
      */
