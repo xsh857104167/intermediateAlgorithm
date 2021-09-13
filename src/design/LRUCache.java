@@ -1,0 +1,101 @@
+package design;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author Murphy Xu
+ * @create 2021-09-13 15:15
+ */
+public class LRUCache {
+    class DLinkedNode {
+        int key;
+        int value;
+        DLinkedNode prev;
+        DLinkedNode next;
+
+        public DLinkedNode() {
+        }
+        
+        public DLinkedNode(int _key, int _value){
+            key = _key;
+            value = _value;
+        }
+    }
+    
+    private Map<Integer, DLinkedNode> cache = new HashMap<>();
+    private int size;
+    private int capacity;
+    private DLinkedNode head, tail;
+    
+    public LRUCache(int capacity){
+        this.size = 0;
+        this.capacity = capacity;
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        DLinkedNode node = cache.get(key);
+        if (node == null){
+            return -1;
+        }
+        // 如果 key 存在，先通过hash表定位，再移到头部
+        moveToHead(node);
+        return node.value;
+    }
+
+    private void moveToHead(DLinkedNode node) {
+        removeNode(node);
+        addToHead(node);
+    }
+
+    private void addToHead(DLinkedNode node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    private void removeNode(DLinkedNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public void put(int key, int value) {
+        DLinkedNode node = cache.get(key);
+        if (node == null){
+            // 如果 key 不存在，创建一个新节点
+            DLinkedNode newNode = new DLinkedNode(key, value);
+            cache.put(key, newNode);
+            // 添加至双向链表的头部
+            addToHead(newNode);
+            size++;
+            if (size > capacity){
+                // 如果超出容量，删除双向链表的尾节点
+                DLinkedNode tail = removeTail();
+                cache.remove(tail.key);
+                size--;
+            }
+        }else{
+            // 如果 key 存在，先通过hash表定位，再修改value，并移到头部
+            node.value = value;
+            moveToHead(node);
+        }
+    }
+
+    private DLinkedNode removeTail() {
+        DLinkedNode res = tail.prev;
+        removeNode(res);
+        return res;
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
